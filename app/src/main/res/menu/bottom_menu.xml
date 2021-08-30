@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/exit_pdf"
+        android:enabled="true"
+        android:icon="@drawable/ic_exit_pdf"
+        android:title="@string/exit_pdf"/>
+
+    <item
+        android:id="@+id/find_pdf"
+        android:enabled="true"
+        android:icon="@drawable/ic_file"
+        android:iconTint="@color/black"
+        android:title="@string/text_label"/>
+
+
+</menu>
