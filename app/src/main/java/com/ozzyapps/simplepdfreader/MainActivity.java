@@ -33,24 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView pageCounter;
     private Uri currentPDF_URI = null;
     private int currentPage = 0;
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        int orientation = newConfig.orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT)
-            createPdfView(currentPDF_URI);
-        else if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            createPdfView(currentPDF_URI);
-    }
-
+    private int maxPageCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -68,6 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        int orientation = newConfig.orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT){
+            createPdfView(currentPDF_URI);
+
+        }
+        else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            createPdfView(currentPDF_URI);
+        }
+    }
+
     public void createPdfView(Uri uri) {
         pdfView.fromUri(uri)
                 .enableAntialiasing(true).defaultPage(currentPage).onPageChange(new OnPageChangeListener() {
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageChanged(int page, int pageCount) {
                 pageCounter.setText(page + 1 + "/" + pageCount);
                 currentPage = page;
+                maxPageCount = pageCount;
             }
         }).enableAntialiasing(true)
                 .enableSwipe(true)

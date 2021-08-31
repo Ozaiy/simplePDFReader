@@ -2,4 +2,5 @@
     <string name="app_name">Simple PDF Reader</string>
     <string name="text_label">Open PDF</string>
     <string name="exit_pdf">Exit PDF</string>
+    <string name="page_number">Page number</string>
 </resources>
