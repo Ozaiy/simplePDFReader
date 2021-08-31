@@ -3,4 +3,6 @@
     <string name="text_label">Open PDF</string>
     <string name="exit_pdf">Exit PDF</string>
     <string name="page_number">Page number</string>
+    <string name="finder">Finder</string>
+    <string name="find_page">find_page</string>
 </resources>

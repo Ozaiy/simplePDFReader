@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="visible"
     tools:context="com.ozzyapps.simplepdfreader.MainActivity">
+
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"
@@ -15,36 +17,47 @@
 
 
         <TextView
-            android:id="@+id/pageCounter"
+            android:id="@+id/totalPageNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="false"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="653dp"
             android:layout_marginTop="7dp"
             android:layout_marginEnd="11dp"
-            android:text="0/0"
+            android:text="/0"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#000000"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/pageCounter"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-3dp"
+            android:layout_marginEnd="42dp"
+            android:ems="10"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:text="0"
+            android:textAlignment="viewEnd"
+            android:textSize="19dp"
+            android:visibility="invisible" />
+
     </com.github.barteksc.pdfviewer.PDFView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:itemIconTint="@color/grey"
-        app:itemTextColor="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:menu="@menu/bottom_menu" />
 
 

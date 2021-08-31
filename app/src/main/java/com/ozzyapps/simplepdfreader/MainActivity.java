@@ -16,8 +16,12 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +29,17 @@ import android.widget.Toast;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
     private PDFView pdfView;
     private final int STORAGE_PERMISSION = 1;
-    private TextView pageCounter;
+    private TextView totalPageNumber;
+    private EditText pageCounter;
     private Uri currentPDF_URI = null;
     private int currentPage = 0;
-    private int maxPageCount = 0;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +52,27 @@ public class MainActivity extends AppCompatActivity {
             requestStoragePermission();
         }
 
-        pageCounter = findViewById(R.id.pageCounter);
+        totalPageNumber = findViewById(R.id.totalPageNumber);
         pdfView = findViewById(R.id.pdfView);
+        pageCounter = findViewById(R.id.pageCounter);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
+        pageCounter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handled = false;
+                if (i == EditorInfo.IME_ACTION_DONE){
+                    pageCounter.getText().toString();
+                    currentPage = Integer.parseInt(pageCounter.getText().toString());
+                    createPdfView(currentPDF_URI);
+                    pageCounter.clearFocus();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
     }
 
@@ -74,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
                 .enableAntialiasing(true).defaultPage(currentPage).onPageChange(new OnPageChangeListener() {
             @Override
             public void onPageChanged(int page, int pageCount) {
-                pageCounter.setText(page + 1 + "/" + pageCount);
+                totalPageNumber.setText("/" + pageCount);
+                pageCounter.setText(page + 1 + "");
                 currentPage = page;
-                maxPageCount = pageCount;
             }
         }).enableAntialiasing(true)
                 .enableSwipe(true)
@@ -88,9 +108,17 @@ public class MainActivity extends AppCompatActivity {
             new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri uri) {
-                    createPdfView(uri);
+                    totalPageNumber.setVisibility(View.VISIBLE);
                     pageCounter.setVisibility(View.VISIBLE);
                     currentPDF_URI = uri;
+                    currentPage = 0;
+//                    if (currentPDF_URI != uri){
+//                        currentPage = 0;
+//                    }
+
+                    createPdfView(uri);
+
+
                 }
             });
 
@@ -116,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     createPdfView(null);
                     currentPDF_URI = null;
-                    pageCounter.setText("0/0");
+                    totalPageNumber.setText("/0");
+                    currentPage = 0;
+                    totalPageNumber.setVisibility(View.INVISIBLE);
                     pageCounter.setVisibility(View.INVISIBLE);
                 }
 

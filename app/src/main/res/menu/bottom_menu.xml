@@ -1,4 +1,7 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 
     <item
         android:id="@+id/exit_pdf"
@@ -10,8 +13,8 @@
         android:id="@+id/find_pdf"
         android:enabled="true"
         android:icon="@drawable/ic_file"
-        android:iconTint="@color/black"
-        android:title="@string/text_label"/>
+        android:title="@string/text_label" />
+
 
 
 </menu>

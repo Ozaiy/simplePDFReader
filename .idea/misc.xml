@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/drawable/ic_search.xml" value="0.25462962962962965" />
+        <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.25462962962962965" />
+        <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/layout/top_menu.xml" value="0.1933876811594203" />
         <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/menu/bottom_menu.xml" value="0.328125" />
         <entry key="..\:/MyProjects/simplePDFReader/app/src/main/res/menu/top_menu.xml" value="0.328125" />
