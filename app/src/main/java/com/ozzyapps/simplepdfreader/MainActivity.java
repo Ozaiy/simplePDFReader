@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri currentPDF_URI = null;
     private int currentPage = 0;
     private BottomNavigationView bottomNavigationView;
+    private boolean pageCounterHandled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,36 +60,39 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        // page counter logic to change page to given value from input by user
         pageCounter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handled = false;
-                if (i == EditorInfo.IME_ACTION_DONE){
+                pageCounterHandled = false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
                     pageCounter.getText().toString();
                     currentPage = Integer.parseInt(pageCounter.getText().toString());
+                    currentPage -= 1;
                     createPdfView(currentPDF_URI);
                     pageCounter.clearFocus();
-                    handled = true;
+                    pageCounterHandled = true;
                 }
-                return handled;
+                return pageCounterHandled;
             }
         });
 
     }
 
+    // Checks for phone rotation change and renders PDF view again
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         int orientation = newConfig.orientation;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             createPdfView(currentPDF_URI);
 
-        }
-        else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             createPdfView(currentPDF_URI);
         }
     }
 
+    // function for loading a PDF & showing it on screen
     public void createPdfView(Uri uri) {
         pdfView.fromUri(uri)
                 .enableAntialiasing(true).defaultPage(currentPage).onPageChange(new OnPageChangeListener() {
@@ -112,12 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     pageCounter.setVisibility(View.VISIBLE);
                     currentPDF_URI = uri;
                     currentPage = 0;
-//                    if (currentPDF_URI != uri){
-//                        currentPage = 0;
-//                    }
-
                     createPdfView(uri);
-
 
                 }
             });
@@ -125,8 +124,12 @@ public class MainActivity extends AppCompatActivity {
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
+
+        //Bottom navigation onClick listeners
+        //Open File & Exit PDF onCLick listeners located here
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            // Find PDF on click listener
             if (item.getItemId() == R.id.find_pdf) {
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -138,10 +141,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             }
+            // Exit current PDF on click listener
             if (item.getItemId() == R.id.exit_pdf) {
-                if(currentPDF_URI == null){
+                if (currentPDF_URI == null) {
                     Toast.makeText(MainActivity.this, "Open a file first", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     createPdfView(null);
                     currentPDF_URI = null;
                     totalPageNumber.setText("/0");
@@ -155,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Request storage permission function
     public void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
