@@ -4,7 +4,7 @@ This project serves as a opensource pdf reader for android users.
 
 ## Getting Started
 
-pull the project from the github or download it as a zip file.
+pull the project from the github or download it as a zip.
 
 ### Prerequisites
 
@@ -28,4 +28,4 @@ This project is licensed under the Apache License Version 2.0
 
 ## Acknowledgments
 
-I began this project to keep pdf files local and private. So no other proprietary app could read or collect meta data from my pdf files.
+I began this project to keep pdf files local and private. So no other proprietary app could read or collect meta data from my pdf files. It is not intended to compete or be the best pdf reader. Its purpose is to respect the users privacy.
