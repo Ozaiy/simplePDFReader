@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.ozzyapps.simplepdfreader">
+
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
@@ -10,17 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimplePDFReader">
+
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:configChanges="orientation|screenLayout|screenSize|navigation|keyboardHidden"
             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/pdf" />
             </intent-filter>
+
         </activity>
+
+
+
     </application>
 
 </manifest>

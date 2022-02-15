@@ -11,11 +11,14 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,8 +34,11 @@ import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "test";
     private PDFView pdfView;
     private final int STORAGE_PERMISSION = 1;
     private TextView totalPageNumber;
@@ -42,10 +48,40 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private boolean pageCounterHandled = false;
 
+    private Runnable task = new Runnable() {
+        public void run() {
+
+
+            final Intent intent = getIntent();
+            final String action = intent.getAction();
+
+            if(Intent.ACTION_VIEW.equals(action)){
+                Uri uri = intent.getData();
+                if (uri != null){
+
+                    totalPageNumber.setVisibility(View.VISIBLE);
+                    pageCounter.setVisibility(View.VISIBLE);
+                    currentPDF_URI = uri;
+                    currentPage = 0;
+                    createPdfView(uri);
+
+                }else {
+
+                }
+            } else {
+                Log.d(TAG, "intent was something else: "+action);
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(task, 50);
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -78,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     // Checks for phone rotation change and renders PDF view again
     @Override
@@ -117,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                     currentPDF_URI = uri;
                     currentPage = 0;
                     createPdfView(uri);
-
                 }
             });
 

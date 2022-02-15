@@ -45,6 +45,7 @@
             android:imeOptions="actionDone"
             android:inputType="number"
             android:text="0"
+            android:textColor="@color/black"
             android:textAlignment="viewEnd"
             android:textSize="19dp"
             android:visibility="invisible" />
